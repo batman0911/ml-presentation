@@ -1,0 +1,51 @@
+\documentclass{beamer}
+\usetheme{Boadilla}
+\usecolortheme{spruce}
+\usefonttheme{serif}
+
+\usepackage{lipsum}
+\usepackage{graphicx,xcolor}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage[utf8]{vietnam}
+\setbeamertemplate{caption}[numbered]
+
+\AtBeginSection[]{ 
+    \begin{frame}{Outline} 
+        \tableofcontents[currentsection] 
+    \end{frame} }
+
+\title[Short Title]{[Full Title]}
+\subtitle{[Course Code] Presentation}
+\author[Linh Nguyen]{Nguyễn Mạnh Linh}
+\institute[MIM, HUS]{Khoa Toán-Cơ-Tin học \\ Đại học Khoa học Tự nhiên}
+\date{2022/12}
+% \titlegraphic{\includegraphics[width=2cm]{images/logo/iiserm_logo.jpg}}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+
+\section{Introduction}
+\input{segments/1_intro}
+
+\section{Build-up}
+\input{segments/2_build}
+
+\section{Argument}
+\input{segments/3_argue}
+
+\section{Conclusion}
+\input{segments/4_conclude}
+
+
+\section*{References}
+\begin{frame}
+    \frametitle{References}
+    \bibliographystyle{amsalpha}
+    \bibliography{ref.bib}
+\end{frame}
+
+\end{document}
