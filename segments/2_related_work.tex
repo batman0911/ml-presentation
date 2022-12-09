@@ -1,0 +1,48 @@
+\begin{frame}{Nghiên cứu liên quan}
+    \begin{block}{This is a block}
+        \lipsum[1][1-3]
+    \end{block}   
+    \begin{alertblock}{This is an alert block}
+        \lipsum[2][2-5]
+    \end{alertblock}  
+\end{frame}
+
+\begin{frame}{Tấn công DNNs - FGM, I-FGM}
+    \begin{itemize}
+        \item Kí hiệu $\mathbf{x_0}$ và $\mathbf{x}$ lần lượt là mẫu gốc và mẫu đối nghịch,
+        $t$ là lớp mục tiêu cần tấn công.
+
+        \item Tấn công dựa trên $L_{\infty}$
+        \begin{equation}
+            \mathbf{x} = \mathbf{x_0} - \epsilon \times \text{sign}(\nabla J(\mathbf{x_0}, t))
+        \end{equation}
+        với $\epsilon$ là độ biến dạng $L_{\infty}$ giữa $\mathbf{x}$ và $\mathbf{x_0}$ và 
+        $\text{sign}(\nabla J)$ là dấu của gradient
+        
+        \item Tấn công dựa trên $L_1$ và $L_2$
+        \begin{equation}
+            \mathbf{x} = \mathbf{x_0} - \epsilon \frac{\nabla J(\mathbf{x_0}, t)}
+            {\lVert \nabla J(\mathbf{x_0}, t) \rVert _q}
+        \end{equation}
+        với $q = 1,2$ và $\epsilon$ là độ méo tương quan
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Tấn công DNNs - C\&W}
+    \begin{itemize}
+        \item Thay vì sử dụng hàm mất mát trên tập huấn luyện Carlini và Wagner
+        đã thiết kế  một hiệu chỉnh $L_2$ trong hàm mất mát dựa trên lớp logit trong DNNs để sinh 
+        ra các mẫu đối nghịch (Carlini and Wagner 2017b)
+        \item Công thức này hóa ra là một trường hợp riêng của thuật toát EAD (sẽ được trình bày trong phần sau)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Tấn công DNNs - C\&W}
+    \begin{itemize}
+        \item Defensive distillation - Chưng cất phòng thủ (Papernot et al.2016b)
+        \item Adversarial training - Huấn luyện đối nghịch (Zheng et al. 2016; Madry et al. 2017; 
+        Tram`er et al. 2017; Zantedeschi, Nicolae, and Rawat 2017)
+        \item Detection methods - Phương pháp dò tìm (Feinman et al. 2017; Grosse et al. 2017; Lu, Issaranon, and Forsyth 2017; 
+        Xu, Evans, and Qi 2017)
+    \end{itemize}
+\end{frame}
