@@ -1,0 +1,78 @@
+\begin{frame}{EAD - Tóm lược}
+    \begin{itemize}
+        \item Hiệu chỉnh elastic-net là công nghệ được sử dụng rộng rãi trong việc giải quyết 
+        các bài toán lựa chọn thuộc tính nhiều chiều (Zou and Hastie 2005)
+
+        \item Nhìn chung, hiệu chỉnh elastic-net được sử dụng trong bài toán cực 
+        tiểu hóa sau đây:
+        \begin{equation}
+            \label{eq:3.1}
+            \text{minimize}_{\mathbf{z} \in \mathcal{Z}} \text{ }
+            f(\mathbf{z}) + \lambda_1 \lVert \mathbf{z} \rVert_1
+            + \lambda_2 \lVert \mathbf{z} \rVert_2^2
+        \end{equation}
+        Trong đó $\mathbf{z}$ là vector của $p$ biến tối ưu, $\mathcal{Z}$ là tập nghiệm 
+        chấp nhận được, $f(\mathbf{z})$ là hàm mất mát, $\lVert \mathbf{z} \rVert_q$ là 
+        chuẩn $q$ của $\mathbf{z}$ và $\lambda_1, \lambda_2 \geq 0$ tương ứng là các tham số hiệu 
+        chỉnh $L_1$ và $L_2$
+
+        \item Biểu thức $\lambda_1 \lVert \mathbf{z} \rVert_1 + \lambda_2 
+        \lVert \mathbf{z} \rVert_2^2$ được gọi là hiệu chỉnh elactic-net của $\mathbf{z}$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{EAD - Xây dựng}
+    Cho trước 1 ảnh $\mathbf{x_0}$ và nhãn đúng của nó là $t_0$, 
+    gọi $\mathbf{x}$ là mẫu đối nghịch của $\mathbf{x_0}$ với lớp đích nhắm đến là $t \neq t_0$ . Hàm mất mát 
+    $f(\mathbf{x})$ cho tấn công nhắm đích là:
+    \begin{equation}
+        \label{eq:3.2}
+        f(\mathbf{x}, t) = \max { \left( \max_{j \neq t} [\textbf{Logit}(\mathbf{x})]_j - 
+        [\textbf{Logit}(\mathbf{x})]_t, -\kappa \right) }
+    \end{equation}
+    Trong đó $\textbf{Logit}(\mathbf{x}) = [\textbf{Logit}(\mathbf{x})_1, ..., 
+    \textbf{Logit}(\mathbf{x})_K] 
+    \in \mathbb{R}^K$ là lớp logit (lớp trước softmax) biểu diễn cho $\mathbf{x}$ trong mạng DNN, $K$
+    là số lượng lớp cần phân loại, $\kappa > 0$ là tham số tin cậy, nó đảm bảo một khoảng 
+    cách cố định giữa $\max_{j \neq t} [\textbf{Logit}(\mathbf{x})]_j$ và $[\textbf{Logit}(\mathbf{x})]_t$.
+\end{frame}
+
+\begin{frame}{EAD - Xây dựng}
+    Thành phần $[\textbf{Logit}(x)]_t$ là xác xuất dự đoán $x$ có nhãn $t$ theo 
+    luật phân loại của hàm softmax:
+    \begin{equation}
+        \label{eq:3.3}
+        \text{Prob}(\text{Label}(\mathbf{x}) = t) = \frac{\exp([\textbf{Logit}(\mathbf{x})]_t)}{
+            \sum_{j=1}^{K} \exp([\textbf{Logit}(\mathbf{x})]_j)
+        }
+    \end{equation}
+\end{frame}
+
+\begin{frame}{EAD - Xây dựng}
+    Do đó, hàm mất mát trong phương trình \ref{eq:3.2} có mục đích là để cho ra nhãn $t$ là 
+    lớp có xác xuất cao nhất của $x$ và tham số $\kappa$ đảm bảo sự phân biệt giữa lớp $t$
+    và lớp dự đoán gần nhất khác với $t$. Với tấn công không nhắm mục tiêu, hàm mất mát trong 
+    phương trình \ref{eq:3.2} trở thành:
+    \begin{equation}
+        \label{eq:3.4}\
+        f(x) = \max { \left([\textbf{Logit}(\mathbf{x})]_{t_0} - 
+        \max_{j \neq t} [\textbf{Logit}(\mathbf{x})]_j, -\kappa \right) }
+    \end{equation}
+\end{frame}
+
+\begin{frame}{EAD - Xây dựng}
+    Hiệu chỉnh 
+    elastic-net còn tạo ra mẫu đối nghịch tương tự với ảnh gốc. Công thức tấn công elastic-net
+    vào mạng DNNs (EAD) để tạo ra mẫu đối nghịch $(\mathbf{x},t)$ cho ảnh gốc $(\mathbf{x_0}, t_0)$ như sau:
+    \begin{equation}
+        \label{eq:3.5}
+        \begin{split}
+        &\text{minimize}_{\mathbf{x}} \text{ }
+        c \times f(\mathbf{x}, t) + \beta \lVert \mathbf{x} - x_0 \rVert_1
+        + \lVert \mathbf{x} - \mathbf{x_0} \rVert_2^2 \\
+        &\text{st   } \mathbf{x} \in [0,1]^p
+        \end{split}
+    \end{equation}
+    Với $f(x,t)$ được xác định trong phương trình (\ref{eq:3.2}), $c, \beta \geq 0$ lần lượt 
+    là các tham số  hiệu chỉnh của hàm mất mát $f$ và hàm phạt $L_1$.
+\end{frame}
