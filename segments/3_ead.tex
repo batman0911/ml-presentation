@@ -41,13 +41,10 @@
     Thành phần $[\textbf{Logit}(x)]_t$ là xác xuất dự đoán $x$ có nhãn $t$ theo 
     luật phân loại của hàm softmax:
     \begin{equation}
-        \begin{split}
-        &\text{minimize}_{\mathbf{x}} \text{ }
-        c \times f(\mathbf{x}, t) + \beta \lVert \mathbf{x} - \mathbf{x_0} \rVert_1
-        + \lVert \mathbf{x} - \mathbf{x_0} \rVert_2^2 \\
-        &\text{st   } \mathbf{x} \in [0,1]^p
-        \end{split}
-        \label{eq:7}
+        \label{eq:5}
+        \text{Prob}(\text{Label}(\mathbf{x}) = t) = \frac{\exp([\textbf{Logit}(\mathbf{x})]_t)}{
+            \sum_{j=1}^{K} \exp([\textbf{Logit}(\mathbf{x})]_j)
+        }
     \end{equation}
 \end{frame}
 
