@@ -6,7 +6,7 @@
         \item Nhìn chung, hiệu chỉnh elastic-net được sử dụng trong bài toán cực 
         tiểu hóa sau đây:
         \begin{equation}
-            \label{eq:3.1}
+            \label{eq:3}
             \text{minimize}_{\mathbf{z} \in \mathcal{Z}} \text{ }
             f(\mathbf{z}) + \lambda_1 \lVert \mathbf{z} \rVert_1
             + \lambda_2 \lVert \mathbf{z} \rVert_2^2
@@ -26,7 +26,7 @@
     gọi $\mathbf{x}$ là mẫu đối nghịch của $\mathbf{x_0}$ với lớp đích nhắm đến là $t \neq t_0$ . Hàm mất mát 
     $f(\mathbf{x})$ cho tấn công nhắm đích là:
     \begin{equation}
-        \label{eq:3.2}
+        \label{eq:4}
         f(\mathbf{x}, t) = \max { \left( \max_{j \neq t} [\textbf{Logit}(\mathbf{x})]_j - 
         [\textbf{Logit}(\mathbf{x})]_t, -\kappa \right) }
     \end{equation}
@@ -41,7 +41,7 @@
     Thành phần $[\textbf{Logit}(x)]_t$ là xác xuất dự đoán $x$ có nhãn $t$ theo 
     luật phân loại của hàm softmax:
     \begin{equation}
-        \label{eq:3.3}
+        \label{eq:5}
         \text{Prob}(\text{Label}(\mathbf{x}) = t) = \frac{\exp([\textbf{Logit}(\mathbf{x})]_t)}{
             \sum_{j=1}^{K} \exp([\textbf{Logit}(\mathbf{x})]_j)
         }
@@ -49,13 +49,13 @@
 \end{frame}
 
 \begin{frame}{EAD - Xây dựng}
-    Do đó, hàm mất mát trong phương trình \ref{eq:3.2} có mục đích là để cho ra nhãn $t$ là 
-    lớp có xác xuất cao nhất của $x$ và tham số $\kappa$ đảm bảo sự phân biệt giữa lớp $t$
+    Do đó, hàm mất mát trong phương trình (\ref{eq:4}) có mục đích là để cho ra nhãn $t$ là 
+    lớp có xác xuất cao nhất của $\mathbf{x}$ và tham số $\kappa$ đảm bảo sự phân biệt giữa lớp $t$
     và lớp dự đoán gần nhất khác với $t$. Với tấn công không nhắm mục tiêu, hàm mất mát trong 
-    phương trình \ref{eq:3.2} trở thành:
+    phương trình \ref{eq:4} trở thành:
     \begin{equation}
-        \label{eq:3.4}\
-        f(x) = \max { \left([\textbf{Logit}(\mathbf{x})]_{t_0} - 
+        \label{eq:6}\
+        f(\mathbf{x}) = \max { \left([\textbf{Logit}(\mathbf{x})]_{t_0} - 
         \max_{j \neq t} [\textbf{Logit}(\mathbf{x})]_j, -\kappa \right) }
     \end{equation}
 \end{frame}
@@ -65,7 +65,7 @@
     elastic-net còn tạo ra mẫu đối nghịch tương tự với ảnh gốc. Công thức tấn công elastic-net
     vào mạng DNNs (EAD) để tạo ra mẫu đối nghịch $(\mathbf{x},t)$ cho ảnh gốc $(\mathbf{x_0}, t_0)$ như sau:
     \begin{equation}
-        \label{eq:3.5}
+        \label{eq:7}
         \begin{split}
         &\text{minimize}_{\mathbf{x}} \text{ }
         c \times f(\mathbf{x}, t) + \beta \lVert \mathbf{x} - x_0 \rVert_1
@@ -73,6 +73,6 @@
         &\text{st   } \mathbf{x} \in [0,1]^p
         \end{split}
     \end{equation}
-    Với $f(x,t)$ được xác định trong phương trình (\ref{eq:3.2}), $c, \beta \geq 0$ lần lượt 
+    Với $f(\mathbf{x},t)$ được xác định trong phương trình (\ref{eq:4}), $c, \beta \geq 0$ lần lượt 
     là các tham số  hiệu chỉnh của hàm mất mát $f$ và hàm phạt $L_1$.
 \end{frame}

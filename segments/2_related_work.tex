@@ -1,12 +1,3 @@
-\begin{frame}{Nghiên cứu liên quan}
-    \begin{block}{This is a block}
-        \lipsum[1][1-3]
-    \end{block}   
-    \begin{alertblock}{This is an alert block}
-        \lipsum[2][2-5]
-    \end{alertblock}  
-\end{frame}
-
 \begin{frame}{Tấn công DNNs - FGM, I-FGM}
     \begin{itemize}
         \item Kí hiệu $\mathbf{x_0}$ và $\mathbf{x}$ lần lượt là mẫu gốc và mẫu đối nghịch,
@@ -15,6 +6,7 @@
         \item Tấn công dựa trên $L_{\infty}$
         \begin{equation}
             \mathbf{x} = \mathbf{x_0} - \epsilon \times \text{sign}(\nabla J(\mathbf{x_0}, t))
+            \label{eq:1}
         \end{equation}
         với $\epsilon$ là độ biến dạng $L_{\infty}$ giữa $\mathbf{x}$ và $\mathbf{x_0}$ và 
         $\text{sign}(\nabla J)$ là dấu của gradient
@@ -23,6 +15,7 @@
         \begin{equation}
             \mathbf{x} = \mathbf{x_0} - \epsilon \frac{\nabla J(\mathbf{x_0}, t)}
             {\lVert \nabla J(\mathbf{x_0}, t) \rVert _q}
+            \label{eq:2}
         \end{equation}
         với $q = 1,2$ và $\epsilon$ là độ méo tương quan
     \end{itemize}
