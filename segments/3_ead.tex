@@ -41,10 +41,13 @@
     Thành phần $[\textbf{Logit}(x)]_t$ là xác xuất dự đoán $x$ có nhãn $t$ theo 
     luật phân loại của hàm softmax:
     \begin{equation}
-        \label{eq:3.3}
-        \text{Prob}(\text{Label}(\mathbf{x}) = t) = \frac{\exp([\textbf{Logit}(\mathbf{x})]_t)}{
-            \sum_{j=1}^{K} \exp([\textbf{Logit}(\mathbf{x})]_j)
-        }
+        \begin{split}
+        &\text{minimize}_{\mathbf{x}} \text{ }
+        c \times f(\mathbf{x}, t) + \beta \lVert \mathbf{x} - \mathbf{x_0} \rVert_1
+        + \lVert \mathbf{x} - \mathbf{x_0} \rVert_2^2 \\
+        &\text{st   } \mathbf{x} \in [0,1]^p
+        \end{split}
+        \label{eq:7}
     \end{equation}
 \end{frame}
 
@@ -75,4 +78,38 @@
     \end{equation}
     Với $f(x,t)$ được xác định trong phương trình (\ref{eq:3.2}), $c, \beta \geq 0$ lần lượt 
     là các tham số  hiệu chỉnh của hàm mất mát $f$ và hàm phạt $L_1$.
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \textbf{Thuật toán 1} Tấn công Elastic-net vào DNNs (EAD)
+        \begin{itemize}
+            \item[] \textbf{Input}: Ảnh gốc và nhãn của nó ($\mathbf{x}_0$, $t_0$), lớp mục tiêu $t$, tham số chuyển giao $\kappa$, tham số hiệu chỉnh $\beta$, độ dài bước $\alpha_k$, số bước lặp $I$
+            \item[] \textbf{Output}: mẫu đối nghịch $\mathbf{x}$
+            \item[] Khởi tạo: $\mathbf{x}^{(0)}$ = $\mathbf{y}^{(0)}$ = $\mathbf{x}_0$
+            \item[] \textbf{for} $k = 0$ to $I - 1$ do
+            \begin{itemize}
+                \item[] $\mathbf{x}^{(k+1)} = S_{\beta}(\mathbf{y}^{(k)} -\alpha_{k} \nabla g(\mathbf{y}^{(k)}))$
+                \item[] $\mathbf{y}^{(k+1)} = \mathbf{x}^{(k+1)} + \frac{k}{k+3} (\mathbf{x}^{(k+1)} - \mathbf{x}^{(k)}) $
+            \end{itemize}
+            \item[] \textbf{end for}
+            \item[] Luật quyết định: tìm $\mathbf{x}$ từ tập các mẫu thành công trong $\{\mathbf{x}^k\}_{k=1}^{I}$ (luật EN, luật $L_1$).
+        \end{itemize}
+    \end{center}
+\end{frame}
+
+\begin{frame}{EAD - Thuật toán}
+    Trong đó 
+    \begin{equation}
+        \label{eq:9}
+        [S_{\beta}(\mathbf{z})]_i = 
+        \begin{cases}
+            \min \{ \mathbf{z}_i - \beta, 1 \} &\text{ nếu } \mathbf{z}_i - \mathbf{x_0}_i  > \beta; \\
+            \mathbf{x_0}_i &\text{ nếu } |\mathbf{z}_i - \mathbf{x_0}_i| \leq \beta; \\
+            \max \{ \mathbf{z}_i + \beta, 0 \} &\text{ nếu } \mathbf{z}_i - \mathbf{x_0}_i < -\beta
+        \end{cases}
+    \end{equation}
+    Với $i \in \{ 1, ..., p \}$. Nếu $|\mathbf{z}_i - \mathbf{x_0}_i| > \beta$, thành phần 
+    $\mathbf{z}_i$ được co lại với hệ số $\beta$ và chiếu thành phần kết quả lên miền ràng buộc 
+    chấp nhận được thuộc đoạn $[0,1]$.
 \end{frame}
